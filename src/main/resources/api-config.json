@@ -1,0 +1,9 @@
+{
+  "library": "jvm-okhttp4",
+  "apiPackage": "net.pproj.tutter.api",
+  "modelPackage": "net.pproj.tutter.model",
+  "dateLibrary": "java8",
+  "hideGenerationTimestamp": true,
+  "serviceInterface": true,
+  "openApiNullable": false
+}

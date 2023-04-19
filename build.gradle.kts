@@ -11,74 +11,50 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation("com.squareup.moshi:moshi-adapters:1.14.0")
+    testImplementation(kotlin("test"))
+}
+
 // -----------
 // Build magic
 // -----------
 apply<TuttiBuildPlugin>()
-
 val tutterRepo: String by project
-tasks.findByName("downloadTutterRepo")?.setProperty("repoUrl", tutterRepo)
-
-val tutterApiClient = "tutter-client"
-val generatedSrc = "src/generated/kotlin"
-
-dependencies {
-    testImplementation(kotlin("test"))
-    //implementation(project(":$tutterApiClient"))
-//project(":tutter-api")
-}
 
 tasks {
-    val clean by getting {
-        doFirst {
-            delete("$projectDir/$generatedSrc")
-        }
+    test {
+        useJUnitPlatform()
+    }
+
+    compileKotlin {
+        dependsOn("openApiGenerate")
+    }
+
+    findByName("downloadTutterRepo")?.setProperty("repoUrl", tutterRepo)
+
+    named("openApiGenerate") {
+        dependsOn("downloadTutterRepo")
     }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.named("compileKotlin") {
-    dependsOn("openApiGenerate")
-}
-
-tasks.named("openApiGenerate") {
-    dependsOn("downloadTutterRepo")
-}
-
-val tutterClientSourcePath = "$projectDir/$tutterApiClient/main"
-
 openApiGenerate {
     generatorName.set("kotlin")
-    id.set(tutterApiClient)
     inputSpec.set("$buildDir/tutter/apidoc/spec.yaml")
-    //remoteInputSpec.set("https://playground.ashdavies.dev/openapi/documentation.yml")
-    //outputDir.set(tutterClientSourcePath)
-    outputDir.set(projectDir.toString())
-    additionalProperties.put("sourceFolder", generatedSrc)
+    outputDir.set("$buildDir/generated/")
+    configFile.set("$rootDir/src/main/resources/api-config.json")
     packageName.set("net.pproj.tutter.client")
-    configOptions.set(
-        mapOf(
-            "library" to "jvm-ktor",
-            "dateLibrary" to "java8",
-            "hideGenerationTimestamp" to "true",
-            //"openApiNullable" to "false",
-            "useBeanValidation" to "false",
-            "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
-            "containerDefaultToNull" to "true"
-        )
-    )
 }
 
-//sourceSets {
-//    main {
-//        kotlin {
-//            srcDir(tutterClientSourcePath)
-//        }
-//    }
-//}
+sourceSets {
+    main {
+        kotlin {
+            srcDir("$buildDir/generated/src/main/kotlin")
+        }
+    }
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
