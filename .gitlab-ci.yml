@@ -2,6 +2,7 @@
 
 stages:
   - build
+  - package
   - release
 
 build:
@@ -10,9 +11,30 @@ build:
     - ./gradlew build
 
 jar:
-  stage: release
+  stage: package
   script:
     - ./gradlew jar
   artifacts:
     paths:
       - build/libs/*-standalone.jar
+
+kaniko:
+  stage: release
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [ "" ]
+  before_script: |
+    cat << EOF > /kaniko/.docker/config.json
+    {"auths":{"$CI_REGISTRY":{
+      "username":"$CI_REGISTRY_USER",
+      "password":"$CI_REGISTRY_PASSWORD"
+    }}}
+    EOF
+
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:latest"
+  only:
+    - master
