@@ -1,9 +1,14 @@
-image: openjdk:11
-
-variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+# CI config for shell runner
 
 build:
   stage: build
   script:
     - ./gradlew build
+
+jar:
+  stage: build
+  script:
+    - ./gradlew jar
+  artifacts:
+    paths:
+      - build/libs/*-standalone.jar
