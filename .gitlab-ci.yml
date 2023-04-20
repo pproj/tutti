@@ -1,12 +1,16 @@
 # CI config for shell runner
 
+stages:
+  - build
+  - release
+
 build:
   stage: build
   script:
     - ./gradlew build
 
 jar:
-  stage: build
+  stage: release
   script:
     - ./gradlew jar
   artifacts:

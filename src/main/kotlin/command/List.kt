@@ -12,8 +12,8 @@ enum class ListSubject {
     Tutts, Tags, Authors;
 }
 
-class List : CliktCommand(help = "List tutts, tags, or authors") {
-    val subject by argument().enum<ListSubject>()
+class List : CliktCommand(help = "Listing for ${ListSubject.values().joinToString(", ") { it.name.toLowerCase() }}}") {
+    private val subject by argument().enum<ListSubject>()
 
     override fun run() {
         try {
@@ -23,25 +23,17 @@ class List : CliktCommand(help = "List tutts, tags, or authors") {
                 ListSubject.Authors -> echo("Listing authors")
             }
         } catch (e: Exception) {
-            echo("Cannot list ${subject.toString()}: ${e.message}")
+            echo("Cannot list ${subject}: ${e.message}")
         }
     }
 
-    private fun listTutts() {
-        val tutts = PostApi(Config.baseUrl).postGet()
-        if (tutts.isEmpty()) {
-            echo("No tutts yet.")
-            return
-        }
-
-        tutts.forEach {
-            echo(it.formated())
+    private fun listTutts() = PostApi(Config.baseUrl).postGet().forEach {
+            echo(it.humanFriendly())
             echo("---")
         }
-    }
 }
 
-private fun PostWithAuthor.formated(): String {
+private fun PostWithAuthor.humanFriendly(): String {
     val ago = this.createdAt.ago()
     return """
         |$ago by ${this.author?.name}:

@@ -6,7 +6,7 @@ import command.List
 class Config {
     companion object {
         val baseUrl by lazy {
-            System.getenv("TUTTI_BASE_URL") ?: "http://localhost:8080/api"
+            System.getenv("TUTTER_API_URL") ?: "http://localhost:8080/api"
         }
     }
 }

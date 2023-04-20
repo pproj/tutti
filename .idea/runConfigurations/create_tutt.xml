@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="create tutt" type="JetRunConfigurationType">
+    <envs>
+      <env name="TUTTI_AUTHOR" value="tutti_dev" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <module name="tutti.main" />
+    <option name="PROGRAM_PARAMETERS" value="create" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
