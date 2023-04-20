@@ -37,4 +37,4 @@ kaniko:
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}:latest"
   only:
-    - master
+    - main
