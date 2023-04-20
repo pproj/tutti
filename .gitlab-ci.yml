@@ -23,18 +23,10 @@ kaniko:
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [ "" ]
-  before_script: |
-    cat << EOF > /kaniko/.docker/config.json
-    {"auths":{"$CI_REGISTRY":{
-      "username":"$CI_REGISTRY_USER",
-      "password":"$CI_REGISTRY_PASSWORD"
-    }}}
-    EOF
-
+  needs:
+    - jar
   script:
-    - /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}:latest"
+    - podman build -t robotka/tutti .
+    - podman push robotka/tutti
   only:
     - main
