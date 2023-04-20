@@ -19,3 +19,8 @@ export TUTTI_AUTHOR="your_nick"
 alias tutti='java -jar /path/to/tutti.jar'
 tutti --help
 ```
+
+## TODO
+- container run
+- bash completion
+- watch
