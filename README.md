@@ -2,11 +2,24 @@
 
 ## Installation
 
-You have two options:
-- `podman pull robotka/tutti:latest`
-- Download the JAR from git.sch
+### For Gen-Z kids
 
-### Configuration
+```sh
+alias tutti='podman run -it robotka/tutti:latest'
+```
+
+### As God intended
+
+```sh
+cd ~/Downloads
+wget https://git.sch.bme.hu/pp23/tutti/-/jobs/artifacts/main/download?job=jar -O tutti.zip
+unzip tutti.zip
+cp build/libs/*.jar tutti.jar
+rm -rf build
+alias tutti="java -jar $(pwd)/tutti.jar"
+```
+
+## Configuration
 
 You have to set the `TUTTI_AUTHOR` environment variable to your nick.
 
@@ -14,24 +27,16 @@ You have to set the `TUTTI_AUTHOR` environment variable to your nick.
 export TUTTI_AUTHOR="your_nick"
 ```
 
-## Usage
-
-### Container-based
-
-```sh
-alias tutti='podman run -it robotka/tutti:latest'
-tutti list tutts
-```
-
-### As God intended
+## Usage examples
 
 ```text
-alias tutti='java -jar /path/to/tutti.jar'
 tutti --help
+tutti create
+tutti create --author your_nick
+tutti list tutts
+tutti list tutts --author your_nick
+tutti list tutts --limit 10
+tutti list tutts --tag wow
+tutti list authors
+tutti list tags
 ```
-
-## TODO
-
-- container run
-- bash completion
-- watch

@@ -18,7 +18,7 @@ jar:
     paths:
       - build/libs/*-standalone.jar
 
-kaniko:
+podman:
   stage: release
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
