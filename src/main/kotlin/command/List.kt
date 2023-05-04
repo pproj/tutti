@@ -20,7 +20,7 @@ enum class ListSubject {
     Tutts, Tags, Authors;
 }
 
-val subjects = ListSubject.values().joinToString(", ") { it.name.toLowerCase() }
+val subjects = ListSubject.values().joinToString(", ") { it.name.lowercase() }
 
 class List : CliktCommand(help = "Listing for $subjects") {
     // What to list

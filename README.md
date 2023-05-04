@@ -19,6 +19,14 @@ rm -rf build
 alias tutti="java -jar $(pwd)/tutti.jar"
 ```
 
+### Local dev
+
+```sh
+./gradlew jar
+alias tutti="java -jar $(pwd)/build/libs/tutti-1.0-SNAPSHOT-standalone.jar"
+``
+```
+
 ## Configuration
 
 You have to set the `TUTTI_AUTHOR` environment variable to your nick.
