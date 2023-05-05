@@ -5,7 +5,7 @@
 ### For Gen-Z kids
 
 ```sh
-alias tutti='podman run -it pproj/tutti:latest'
+alias tutti='podman run --rm -it pproj/tutti:latest'
 ```
 
 ### As God intended
