@@ -26,7 +26,7 @@ podman:
   needs:
     - jar
   script:
-    - podman build -t robotka/tutti .
-    - podman push robotka/tutti
+    - podman build -t pproj/tutti .
+    - podman push pproj/tutti
   only:
     - main
